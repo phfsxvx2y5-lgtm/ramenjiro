@@ -118,12 +118,15 @@
     .seo-section {
       background: var(--bg2);
       border-bottom: 1px solid var(--border);
-      padding: 14px 24px;
+      padding: 10px 24px 12px;
     }
     .seo-section h2 {
-      font-size: 0.85rem;
-      color: var(--txt2);
-      margin-bottom: 8px;
+      font-size: 0.78rem;
+      color: var(--txt3);
+      margin-bottom: 7px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
     .seo-tags {
       display: flex;
@@ -552,17 +555,18 @@
     /* ===== FOOTER ===== */
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 24px 20px 32px;
       font-size: 0.68rem;
       color: var(--txt3);
       border-top: 1px solid var(--border);
+      line-height: 1.9;
     }
 
     /* ===== MOBILE ===== */
     @media (max-width: 640px) {
       header { padding: 14px 16px; flex-direction: column; align-items: flex-start; }
       .header-left h1 { font-size: 1.1rem; }
-      .seo-section { padding: 10px 16px; }
+      .seo-section { padding: 8px 16px 10px; }
       .header-btns { align-self: flex-end; }
       .x-section { padding: 12px 16px; }
       .filter-bar { padding: 10px 16px; }
@@ -594,30 +598,28 @@
 </header>
 
 <section class="seo-section">
-  <h2>エリアから探す・よく検索されるキーワード</h2>
+  <h2>エリアで絞り込む</h2>
   <div class="seo-tags">
-    <span class="seo-tag" onclick="setRegion('東京')">東京の二郎</span>
-    <span class="seo-tag" onclick="setRegion('神奈川')">神奈川の二郎</span>
-    <span class="seo-tag" onclick="setRegion('埼玉')">埼玉の二郎</span>
-    <span class="seo-tag" onclick="setRegion('千葉')">千葉の二郎</span>
-    <span class="seo-tag" onclick="setRegion('その他')">全国の二郎</span>
-    <span class="seo-tag" onclick="setQuery('食券先買い')">食券先買い</span>
-    <span class="seo-tag" onclick="setQuery('2部制')">2部制</span>
+    <span class="seo-tag" onclick="setRegion('東京')">東京</span>
+    <span class="seo-tag" onclick="setRegion('神奈川')">神奈川</span>
+    <span class="seo-tag" onclick="setRegion('埼玉')">埼玉</span>
+    <span class="seo-tag" onclick="setRegion('千葉')">千葉</span>
+    <span class="seo-tag" onclick="setRegion('その他')">全国（その他）</span>
+    <span class="seo-tag" onclick="setQuery('2部制')">夜も営業</span>
     <span class="seo-tag" onclick="setQuery('ランチのみ')">ランチのみ</span>
-    <span class="seo-tag" onclick="setQuery('夜営業')">夜営業あり</span>
-    <span class="seo-tag" onclick="setQuery('学生')">学生に人気</span>
+    <span class="seo-tag" onclick="setQuery('大学')">大学近く</span>
   </div>
-  <p class="seo-desc">ラーメン二郎は1968年に三田本店が創業した豚骨醤油ラーメンの代表格。極太麺・大量ヤサイ・濃厚スープが特徴で、「コール」と呼ばれるトッピングカスタマイズが名物。直系店は東京を中心に全国各地に展開中。初めての方はコールガイドもご参照ください。</p>
+  <p class="seo-desc">ラーメン二郎は1968年に三田（港区）で創業した、豚骨醤油ベースのラーメン店。圧倒的な麺量・大量の野菜・濃厚なスープが特徴で、独自の注文スタイル「コール」が文化として定着している。直系店は東京を中心に全国各地に展開しており、各店舗が独自の個性を持つ。営業時間・メニューは店舗・時期によって変わるため、来店前の確認を推奨。</p>
 </section>
 
 <!-- X (Twitter) 最新投稿 -->
 <section class="x-section">
   <div class="x-section-head">
-    <span>𝕏 ラーメン二郎の最新投稿</span>
+    <span>X ラーメン二郎の最新投稿</span>
     <a class="x-more" href="https://twitter.com/search?q=ラーメン二郎&f=live" target="_blank" rel="noopener">X で見る →</a>
   </div>
   <div class="x-links">
-    <a class="x-link-btn" href="https://twitter.com/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E4%BA%8C%E9%83%8E&f=live" target="_blank" rel="noopener">𝕏 最新投稿を見る（リアルタイム）</a>
+    <a class="x-link-btn" href="https://twitter.com/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E4%BA%8C%E9%83%8E&f=live" target="_blank" rel="noopener">X 最新投稿を見る（リアルタイム）</a>
     <a class="x-link-btn x-link-sub" href="https://twitter.com/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E4%BA%8C%E9%83%8E+%E4%BB%8A%E6%97%A5&f=live" target="_blank" rel="noopener">🕐 今日のレポートを見る</a>
     <a class="x-link-btn x-link-sub" href="https://twitter.com/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E4%BA%8C%E9%83%8E+%E8%87%A8%E6%99%82%E4%BC%91%E6%A5%AD&f=live" target="_blank" rel="noopener">⚠️ 臨時休業情報</a>
   </div>
@@ -646,7 +648,9 @@
 <div class="grid" id="grid"></div>
 
 <footer>
-  情報は参考目安です（住所・価格・営業時間は変更になる場合があります）。最新情報は各店舗の公式SNS・食べログ等でご確認ください。
+  <p>最終更新：2026年5月 ／ 掲載情報は各種公開情報を元に独自に整理したものです。</p>
+  <p style="margin-top:5px">直系店舗は移転・閉店・新規開店により変動します。営業時間・価格・定休日は随時変更の可能性があります。</p>
+  <p style="margin-top:5px">来店前に必ず各店舗の公式SNS・食べログ・ぐるなび等でご確認ください。</p>
 </footer>
 
 <!-- コールガイドモーダル -->
@@ -658,28 +662,46 @@
     </div>
     <div class="gsec">
       <h3>コールとは？</h3>
-      <p>丼が席に置かれる直前、店員から <strong style="color:#ef9a9a">「ニンニク入れますか？」</strong> と聞かれます。この一言でトッピングをカスタマイズできます。</p>
+      <p>丼が席に置かれる直前、店員から <strong style="color:#ef9a9a">「ニンニク入れますか？」</strong> と聞かれます。この一言でトッピングをカスタマイズできます。何も言わなければデフォルト（標準）のまま提供されます。</p>
     </div>
     <div class="gsec">
       <h3>コールできる内容</h3>
+      <div style="overflow-x:auto">
       <table class="ctbl">
-        <thead><tr><th>コール</th><th>内容</th><th>増量</th></tr></thead>
+        <thead><tr><th>コール</th><th>内容</th><th>指定方法の例</th></tr></thead>
         <tbody>
-          <tr><td>ニンニク</td><td>刻みニンニク。風味が増す</td><td>少し / 普通 / 増し</td></tr>
+          <tr><td>ニンニク</td><td>刻みニンニク。風味が強まる</td><td>なし / 少し / 普通</td></tr>
           <tr><td>ヤサイ</td><td>もやし＋キャベツ。デフォでも大量</td><td>普通 / 増し / 増し増し</td></tr>
           <tr><td>アブラ</td><td>背脂。スープにコクが加わる</td><td>普通 / 増し / 増し増し</td></tr>
           <tr><td>カラメ</td><td>醤油ダレ追加。スープが濃くなる</td><td>普通 / カラメ / カラメカラメ</td></tr>
         </tbody>
       </table>
+      </div>
     </div>
     <div class="gsec">
-      <h3>初心者おすすめ</h3>
+      <h3>初心者おすすめコール</h3>
       <ul>
-        <li>最初は <strong style="color:#ef9a9a">「ニンニクなし、全部普通で」</strong> が無難</li>
-        <li>ヤサイはデフォでもかなりの量。増しは覚悟が必要</li>
-        <li>何も言わなければ「そのまま」もOK</li>
-        <li>残さず食べきるのが望ましい。食べきれる量を注文しよう</li>
+        <li>一番無難なのは <strong style="color:#ef9a9a">「ニンニクなし、全部普通で」</strong></li>
+        <li>ヤサイはデフォルトでもかなりの量。増しは上級者向け</li>
+        <li>何も言わなければ「そのまま（デフォルト）」もOK</li>
+        <li>食べきれる量をしっかり考えて注文しよう</li>
       </ul>
+    </div>
+    <div class="gsec">
+      <h3>知っておきたい用語集</h3>
+      <div style="overflow-x:auto">
+      <table class="ctbl">
+        <thead><tr><th>用語</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td>直系</td><td>三田本店の山田拓美氏から直接のれん分けされた正統後継店。各地に展開しているが、スタイルや品質基準が厳しく管理されている</td></tr>
+          <tr><td>インスパイア系</td><td>二郎の影響を受けた非直系の店舗。「二郎系」とも呼ばれる。味の方向性は似るが、直系とは別物</td></tr>
+          <tr><td>ロット</td><td>1回に調理する麺の数（おおむね4〜8人分）。同じロットの客が同時に席に着き、コールもロット単位で取られる。待ち時間の目安にもなる</td></tr>
+          <tr><td>マシ・増し</td><td>トッピングの量を増やすこと。「マシ」は「増し」と同義。「増し増し」はさらに多量</td></tr>
+          <tr><td>食券</td><td>券売機で事前に購入するシステム。「食券先買い」の店では並ぶ前に購入する</td></tr>
+          <tr><td>天地返し</td><td>丼をひっくり返すように混ぜること。麺をスープに浸けて食べやすくする一部常連の手法</td></tr>
+        </tbody>
+      </table>
+      </div>
     </div>
     <div class="gsec">
       <h3>食べ方のコツ</h3>
@@ -687,6 +709,16 @@
         <li>ヤサイの下に麺が埋まっているので最初にほぐすと食べやすい</li>
         <li>豚はスープに浸しながら食べると柔らかく感じる</li>
         <li>「天地返し」で麺をスープに沈める人も多い</li>
+        <li>初回は「小ラーメン」から。思っているより量が多い</li>
+      </ul>
+    </div>
+    <div class="gsec">
+      <h3>マナーについて</h3>
+      <ul>
+        <li>食べきれる量を注文するのが望ましい（一般的なお店と同じ）</li>
+        <li>満席時や行列中は会話を控えめに</li>
+        <li>荷物はひざの上か足元に。通路を塞がないよう注意</li>
+        <li>ルールや雰囲気は店舗ごとに異なるため、初回は周囲をよく観察して</li>
       </ul>
     </div>
   </div>
@@ -1358,13 +1390,14 @@ function render() {
     return;
   }
 
+  try {
   grid.innerHTML = list.map(s => {
     const bc    = BC[s.region] || 'b-other';
     const qc    = s.queue === '食券先買い' ? 'q-first' : 'q-lineup';
     const tags  = s.features.map(f => `<span class="tag${HL.includes(f) ? ' hl' : ''}">${f}</span>`).join('');
     const mrows = s.menu.map(m => `<tr><td>${m.n}</td><td>¥${m.p.toLocaleString()}</td></tr>`).join('');
     const shtml = s.sns.map(sn =>
-      `<a class="slink slink-${sn.t}" href="${sn.u}" target="_blank" rel="noopener">${sn.t === 'x' ? '𝕏' : '📷'} ${sn.l}</a>`
+      `<a class="slink slink-${sn.t}" href="${sn.u}" target="_blank" rel="noopener">${sn.t === 'x' ? 'X' : '📷'} ${sn.l}</a>`
     ).join('');
     const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent('ラーメン二郎 ' + s.name)}`;
     const open   = openSet.has(s.id);
@@ -1406,6 +1439,9 @@ function render() {
   </div>
 </div>`;
   }).join('');
+  } catch(err) {
+    grid.innerHTML = '<div class="nores"><p>表示エラーが発生しました。ページを再読み込み（Ctrl+Shift+R）してください。</p></div>';
+  }
 }
 
 /* ================================================================
