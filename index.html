@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ラーメン二郎 店舗情報</title>
+  <style>
+    :root {
+      --bg:        #0d0d12;
+      --bg2:       #13131a;
+      --card:      #18181f;
+      --card2:     #1e1e28;
+      --border:    #27273a;
+      --accent:    #d32f2f;
+      --accent2:   #ef5350;
+      --glow:      rgba(211,47,47,0.18);
+      --txt:       #efefef;
+      --txt2:      #9090a8;
+      --txt3:      #55556a;
+      --green:     #66bb6a;
+      --blue:      #42a5f5;
+      --gold:      #ffca28;
+      --r:         12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #5a0000 0%, #8b0000 40%, #c62828 100%);
+      padding: 20px 24px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E") repeat;
+      pointer-events: none;
+    }
+    .header-left h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .header-left p { font-size: 0.7rem; color: rgba(255,255,255,0.55); margin-top: 3px; }
+    .header-btns { display: flex; gap: 8px; flex-shrink: 0; }
+    .hbtn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      white-space: nowrap;
+      backdrop-filter: blur(4px);
+    }
+    .hbtn:hover { background: rgba(255,255,255,0.28); }
+
+    /* ===== X FEED ===== */
+    .x-section {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+    }
+    .x-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .x-section-head span {
+      font-size: 0.82rem;
+      font-weight: bold;
+      color: var(--txt2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .x-more {
+      font-size: 0.75rem;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .x-more:hover { text-decoration: underline; }
+    .x-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .x-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: #1d9bf0;
+      color: #fff;
+      transition: opacity 0.15s;
+    }
+    .x-link-btn:hover { opacity: 0.82; }
+    .x-link-btn.x-link-sub { background: var(--card2); color: var(--txt2); border: 1px solid var(--border); font-weight: 400; }
+
+    /* ===== FILTER BAR ===== */
+    .filter-bar {
+      background: var(--bg2);
+      padding: 10px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 160px;
+      position: relative;
+    }
+    .search-box {
+      width: 100%;
+      padding: 8px 36px 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--txt);
+      font-size: 0.88rem;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--accent); }
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--txt3);
+      cursor: pointer;
+      font-size: 1rem;
+      display: none;
+    }
+    .search-clear.show { display: block; }
+    .tabs-wrap {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--txt2);
+      font-size: 0.78rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .tab:hover { border-color: var(--accent2); color: var(--txt); }
+    .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: bold; }
+    .fav-toggle {
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--txt2);
+      font-size: 0.78rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .fav-toggle.active { background: #e65100; border-color: #e65100; color: #fff; }
+
+    /* ===== COUNT ===== */
+    .count-bar {
+      padding: 8px 24px;
+      font-size: 0.75rem;
+      color: var(--txt3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .count-bar span { color: var(--accent2); font-weight: bold; font-size: 0.9rem; }
+
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+      padding: 4px 24px 40px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--card);
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      position: relative;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(211,47,47,0.5);
+      box-shadow: 0 0 20px var(--glow);
+      transform: translateY(-2px);
+    }
+    .card:hover::before { opacity: 1; }
+    .card.fav { border-color: #e65100; }
+    .card.fav::before { opacity: 1; background: #e65100; }
+
+    .card-top { padding: 14px 16px; }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .store-name {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .badge-col { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; flex-shrink: 0; }
+    .rbadge, .qbadge {
+      font-size: 0.64rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .b-tokyo    { background: #1565c0; color: #fff; }
+    .b-kanagawa { background: #1b5e20; color: #fff; }
+    .b-saitama  { background: #bf360c; color: #fff; }
+    .b-chiba    { background: #4a148c; color: #fff; }
+    .b-other    { background: #263238; color: #ccc; }
+    .q-first    { background: #1b5e20; color: #a5d6a7; }
+    .q-lineup   { background: #311b92; color: #b39ddb; }
+
+    .irow {
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+      color: var(--txt2);
+    }
+    .irow strong { color: #d0d0e0; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .tag {
+      font-size: 0.67rem;
+      padding: 2px 8px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--txt2);
+    }
+    .tag.hl { border-color: rgba(211,47,47,0.6); color: #ef9a9a; }
+
+    .card-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .dtbtn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--txt3);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .dtbtn:hover { border-color: var(--accent2); color: var(--txt); }
+    .favbtn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 6px;
+      line-height: 1;
+      transition: transform 0.15s;
+    }
+    .favbtn:hover { transform: scale(1.2); }
+
+    /* ===== DETAIL ===== */
+    .detail {
+      border-top: 1px solid var(--border);
+      padding: 14px 16px;
+      background: var(--bg2);
+      display: none;
+    }
+    .detail.open { display: block; }
+
+    .dlabel {
+      font-size: 0.68rem;
+      color: var(--txt3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+      margin-top: 12px;
+    }
+    .dlabel:first-child { margin-top: 0; }
+
+    .charas {
+      font-size: 0.8rem;
+      color: var(--txt2);
+      line-height: 1.75;
+    }
+
+    .menu-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .menu-tbl th {
+      background: var(--card2);
+      color: var(--txt3);
+      padding: 5px 10px;
+      text-align: left;
+      font-weight: 500;
+    }
+    .menu-tbl td {
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--txt2);
+    }
+    .menu-tbl td:last-child { text-align: right; color: var(--green); font-weight: 700; }
+    .price-note { font-size: 0.67rem; color: var(--txt3); margin-top: 3px; margin-bottom: 0; }
+
+    .queue-box {
+      background: var(--card2);
+      border-left: 3px solid var(--accent);
+      padding: 9px 12px;
+      font-size: 0.79rem;
+      color: var(--txt2);
+      border-radius: 0 8px 8px 0;
+      line-height: 1.6;
+    }
+    .queue-box strong { color: #ef9a9a; display: block; margin-bottom: 2px; }
+
+    .sns-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .slink {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 11px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      color: var(--txt2);
+      transition: all 0.15s;
+    }
+    .slink:hover { border-color: var(--txt2); color: var(--txt); }
+    .slink-x  { border-color: #555; color: #ccc; }
+    .slink-ig { border-color: #883355; color: #f48fb1; }
+    .mapbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+    .mapbtn:hover { opacity: 0.85; }
+
+    .dnotes {
+      font-size: 0.75rem;
+      color: var(--txt3);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    /* ===== NO RESULT ===== */
+    .nores {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 0;
+      color: var(--txt3);
+    }
+    .nores p { margin-top: 8px; font-size: 0.85rem; }
+
+    /* ===== MODAL ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 200;
+      padding: 0;
+    }
+    .overlay.hidden { display: none; }
+    .modal {
+      background: var(--bg2);
+      border-radius: 20px 20px 0 0;
+      padding: 22px 24px 32px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 88vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-bottom: none;
+    }
+    .modal-hd {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .modal-hd h2 { font-size: 1rem; }
+    .mclose {
+      background: var(--card2);
+      border: none;
+      color: var(--txt2);
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .mclose:hover { background: var(--border); }
+    .gsec { margin-bottom: 16px; }
+    .gsec h3 { font-size: 0.85rem; color: #ef9a9a; margin-bottom: 6px; }
+    .gsec p, .gsec li { font-size: 0.8rem; color: var(--txt2); line-height: 1.75; }
+    .gsec ul { padding-left: 16px; }
+    .ctbl { width: 100%; border-collapse: collapse; font-size: 0.79rem; margin-top: 6px; }
+    .ctbl th { background: var(--card2); color: var(--txt3); padding: 5px 10px; text-align: left; font-weight: 500; }
+    .ctbl td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--txt2); vertical-align: top; }
+    .ctbl td:first-child { color: #ef9a9a; font-weight: 700; white-space: nowrap; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.68rem;
+      color: var(--txt3);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 640px) {
+      header { padding: 14px 16px; flex-direction: column; align-items: flex-start; }
+      .header-left h1 { font-size: 1.2rem; }
+      .header-btns { align-self: flex-end; }
+      .x-section { padding: 12px 16px; }
+      .filter-bar { padding: 10px 16px; }
+      .tabs-wrap { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+      .tab { flex-shrink: 0; }
+      .count-bar { padding: 6px 16px; }
+      .grid { grid-template-columns: 1fr; padding: 4px 16px 32px; gap: 12px; }
+      .card-header { flex-direction: column; gap: 6px; }
+      .badge-col { flex-direction: row; align-items: center; }
+    }
+    @media (max-width: 400px) {
+      .header-left h1 { font-size: 1rem; }
+      .hbtn { padding: 6px 10px; font-size: 0.74rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>🍜 ラーメン二郎 店舗情報</h1>
+    <p>※ 価格・営業時間・定休日は変更になる場合があります。来店前に各店舗の公式情報をご確認ください。</p>
+  </div>
+  <div class="header-btns">
+    <button class="hbtn" id="call-btn">📖 コールガイド</button>
+  </div>
+</header>
+
+<!-- X (Twitter) 最新投稿 -->
+<section class="x-section">
+  <div class="x-section-head">
+    <span>𝕏 ラーメン二郎の最新投稿</span>
+    <a class="x-more" href="https://twitter.com/search?q=ラーメン二郎&f=live" target="_blank" rel="noopener">X で見る →</a>
+  </div>
+  <div class="x-links">
+    <a class="x-link-btn" href="https://twitter.com/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E4%BA%8C%E9%83%8E&f=live" target="_blank" rel="noopener">𝕏 最新投稿を見る（リアルタイム）</a>
+    <a class="x-link-btn x-link-sub" href="https://twitter.com/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E4%BA%8C%E9%83%8E+%E4%BB%8A%E6%97%A5&f=live" target="_blank" rel="noopener">🕐 今日のレポートを見る</a>
+    <a class="x-link-btn x-link-sub" href="https://twitter.com/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E4%BA%8C%E9%83%8E+%E8%87%A8%E6%99%82%E4%BC%91%E6%A5%AD&f=live" target="_blank" rel="noopener">⚠️ 臨時休業情報</a>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <div class="search-wrap">
+    <input class="search-box" id="search" type="text" placeholder="店舗名・エリアで検索…" autocomplete="off">
+    <button class="search-clear" id="search-clear">✕</button>
+  </div>
+  <div class="tabs-wrap" id="tabs">
+    <button class="tab active" data-r="すべて">すべて</button>
+    <button class="tab" data-r="東京">東京</button>
+    <button class="tab" data-r="神奈川">神奈川</button>
+    <button class="tab" data-r="埼玉">埼玉</button>
+    <button class="tab" data-r="千葉">千葉</button>
+    <button class="tab" data-r="その他">その他</button>
+  </div>
+  <button class="fav-toggle" id="fav-toggle">⭐ お気に入り</button>
+</div>
+
+<div class="count-bar" id="count-bar">
+  <span id="count-num">0</span> 件表示
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  情報は参考目安です（住所・価格・営業時間は変更になる場合があります）。最新情報は各店舗の公式SNS・食べログ等でご確認ください。
+</footer>
+
+<!-- コールガイドモーダル -->
+<div id="call-modal" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-hd">
+      <h2>📖 コールガイド（初心者向け）</h2>
+      <button class="mclose" id="call-close">✕</button>
+    </div>
+    <div class="gsec">
+      <h3>コールとは？</h3>
+      <p>丼が席に置かれる直前、店員から <strong style="color:#ef9a9a">「ニンニク入れますか？」</strong> と聞かれます。この一言でトッピングをカスタマイズできます。</p>
+    </div>
+    <div class="gsec">
+      <h3>コールできる内容</h3>
+      <table class="ctbl">
+        <thead><tr><th>コール</th><th>内容</th><th>増量</th></tr></thead>
+        <tbody>
+          <tr><td>ニンニク</td><td>刻みニンニク。風味が増す</td><td>少し / 普通 / 増し</td></tr>
+          <tr><td>ヤサイ</td><td>もやし＋キャベツ。デフォでも大量</td><td>普通 / 増し / 増し増し</td></tr>
+          <tr><td>アブラ</td><td>背脂。スープにコクが加わる</td><td>普通 / 増し / 増し増し</td></tr>
+          <tr><td>カラメ</td><td>醤油ダレ追加。スープが濃くなる</td><td>普通 / カラメ / カラメカラメ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="gsec">
+      <h3>初心者おすすめ</h3>
+      <ul>
+        <li>最初は <strong style="color:#ef9a9a">「ニンニクなし、全部普通で」</strong> が無難</li>
+        <li>ヤサイはデフォでもかなりの量。増しは覚悟が必要</li>
+        <li>何も言わなければ「そのまま」もOK</li>
+        <li>残すのはマナー違反とされることが多い。注文量は慎重に</li>
+      </ul>
+    </div>
+    <div class="gsec">
+      <h3>食べ方のコツ</h3>
+      <ul>
+        <li>ヤサイの下に麺が埋まっているので最初にほぐすと食べやすい</li>
+        <li>豚はスープに浸しながら食べると柔らかく感じる</li>
+        <li>「天地返し」で麺をスープに沈める人も多い</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   店舗データ
+   ※ 住所・営業時間・価格は参考値です。変更になる場合があります。
+================================================================ */
+const STORES = [
+  /* ===== 東京 ===== */
+  {
+    id:1, name:'三田本店', region:'東京', area:'港区三田',
+    address:'東京都港区三田2-16-4',
+    hours:'月〜土 11:00〜15:00',
+    closed:'日曜・祝日', seats:14,
+    queue:'食券先買い',
+    queueNote:'店内入口そばの食券機で先に購入してから行列に並ぶ',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:1000},{n:'大豚ラーメン',p:1100}],
+    features:['二郎発祥','超有名','行列必至','現金のみ'],
+    characteristics:'1968年創業、二郎の総本山。乳化した濃厚豚骨醤油スープに極太ゴワ系麺の組み合わせはここが原点。ヤサイはデフォルトでも大量、豚は大判で柔らかく絶品。小でも他店の大に相当する量があるため、初心者は必ず小から。全国のラーメンファンが一度は訪れる聖地。',
+    notes:'店主・山田拓美氏が今も切り盛り。席数が少なく回転も遅め。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+三田本店&f=live'}],
+  },
+  {
+    id:2, name:'新宿小滝橋通り店', region:'東京', area:'新宿区西新宿',
+    address:'東京都新宿区西新宿7-1-5',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'店頭の食券機で購入後に並ぶ。ランチと夜で混雑度が異なる',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['2部制','都心立地','夜営業あり','現金のみ'],
+    characteristics:'新宿エリア唯一の直系店。西新宿のオフィス街に位置し、ランチも夜も利用しやすい。スープは本店スタイルの豚骨醤油濃厚系。夜営業があるため仕事帰りにも立ち寄れる。',
+    notes:'新宿唯一の直系店。2部制。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+新宿小滝橋&f=live'}],
+  },
+  {
+    id:3, name:'池袋東口店', region:'東京', area:'豊島区東池袋',
+    address:'東京都豊島区東池袋1-13-1',
+    hours:'月〜土 11:00〜15:30 / 17:00〜20:30',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機は入口付近。ランチ・夜それぞれの開店前から行列が形成されやすい',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['2部制','池袋','学生・社会人に人気','現金のみ'],
+    characteristics:'池袋東口の繁華街に位置する直系店。2部制で夜まで営業し、学生・サラリーマン問わず幅広い客層が訪れる。スープは乳化系濃厚豚骨醤油。',
+    notes:'池袋東口から徒歩数分。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+池袋東口&f=live'}],
+  },
+  {
+    id:4, name:'仙川店', region:'東京', area:'調布市仙川',
+    address:'東京都調布市仙川町2-16-14',
+    hours:'月〜土 11:00〜14:30 / 17:00〜20:30',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'店頭の食券機で先に購入してから行列に並ぶ',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['仙川','2部制','京王線沿線','現金のみ'],
+    characteristics:'京王線仙川駅近くの直系店。調布・三鷹方面のファンに重宝される。スープは豚骨醤油の安定した仕立てで、住宅街の中にありながら行列が絶えない人気店。',
+    notes:'仙川駅徒歩数分。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+仙川&f=live'}],
+  },
+  {
+    id:5, name:'目黒店', region:'東京', area:'目黒区目黒',
+    address:'東京都目黒区目黒1-3-2',
+    hours:'月〜土 11:30〜15:00',
+    closed:'日曜', seats:12,
+    queue:'食券先買い',
+    queueNote:'入口の食券機で購入後に並ぶ。席数少なく満席時は店外待ち',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['小規模','ランチのみ','売り切れ早め','現金のみ'],
+    characteristics:'目黒駅近くの小規模直系店。席数12席と少なく早い時間に売り切れ閉店になることも。スープは豚骨醤油のクラシックな味わい。早めの来店が鉄則。',
+    notes:'売り切れ閉店あり。早めの来店推奨。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+目黒&f=live'}],
+  },
+  {
+    id:6, name:'品川店', region:'東京', area:'港区港南',
+    address:'東京都港区港南2-4-8',
+    hours:'月〜金 11:00〜15:00 / 17:30〜20:00',
+    closed:'土日', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。平日のみのため週明けは特に混みやすい',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['平日のみ','オフィス街','2部制','現金のみ'],
+    characteristics:'品川駅港南口のオフィス街に位置する平日専門店。土日完全休業のためビジネスマン御用達。ランチタイムは近隣会社員で行列。夜は18:30開店と遅め。',
+    notes:'土日完全休業。ビジネスマン向け立地。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+品川&f=live'}],
+  },
+  {
+    id:7, name:'上野毛店', region:'東京', area:'世田谷区上野毛',
+    address:'東京都世田谷区上野毛2-4-5',
+    hours:'月〜土 11:30〜15:00',
+    closed:'日曜', seats:14,
+    queue:'食券先買い',
+    queueNote:'食券機は入口そば。住宅街のため周囲への配慮を忘れずに',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['住宅街','ランチのみ','地元客多し','現金のみ'],
+    characteristics:'東急大井町線上野毛駅近くの閑静な住宅街に佇む直系店。地元固定客が多くアットホームな雰囲気。スープは豚骨醤油のスタンダードな仕立てで食べやすい。観光感はなく純粋に二郎を楽しめる穴場的存在。',
+    notes:'大井町線上野毛駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+上野毛&f=live'}],
+  },
+  {
+    id:8, name:'荻窪店', region:'東京', area:'杉並区上荻',
+    address:'東京都杉並区上荻1-23-10',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'入口付近の食券機で先に購入',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['中央線沿線','2部制','杉並','現金のみ'],
+    characteristics:'JR中央線・丸ノ内線の荻窪駅近く。中央線沿線民に愛されており、ランチ・夜両方の需要を取り込む。スープはやや非乳化寄りとも評される豚骨醤油。杉並区内の貴重な直系店。',
+    notes:'荻窪駅近く。夜も営業。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+荻窪&f=live'}],
+  },
+  {
+    id:9, name:'小岩店', region:'東京', area:'江戸川区南小岩',
+    address:'東京都江戸川区南小岩7-30-18',
+    hours:'火〜日 11:00〜15:00 / 17:00〜20:00',
+    closed:'月曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'店頭の食券機で購入後に並ぶ',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['下町','2部制','月曜定休','現金のみ'],
+    characteristics:'JR総武線小岩駅南口近くの下町エリア。江戸川区という東京東部では貴重な直系店。地元のリピーターが多くアットホームな雰囲気。スープは濃厚豚骨醤油で麺は極太系。',
+    notes:'月曜定休。江戸川区内の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+小岩&f=live'}],
+  },
+  {
+    id:10, name:'府中店', region:'東京', area:'府中市宮西町',
+    address:'東京都府中市宮西町2-1-3',
+    hours:'月〜土 11:00〜15:30',
+    closed:'日曜', seats:20,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。郊外店のため比較的並びやすい傾向',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['多摩地区','席数多め','京王線沿線','現金のみ'],
+    characteristics:'京王線府中駅近くの多摩地区直系店。席数20席と余裕があり都心店より並びやすい。府中競馬場エリアのファンにも愛されている。スープは豚骨醤油の安定したクオリティ。',
+    notes:'多摩地区では数少ない直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+府中&f=live'}],
+  },
+  {
+    id:11, name:'八王子野猿街道店2', region:'東京', area:'八王子市堀之内',
+    address:'東京都八王子市堀之内2-8-8',
+    hours:'火〜日 11:00〜14:30 / 17:00〜20:00',
+    closed:'月曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。夜の開店前から並ぶ客もいる',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['八王子','2部制','多摩西部','現金のみ'],
+    characteristics:'八王子市の野猿街道沿い。多摩西部ではここが聖地的存在。ランチは14:30ラストオーダーと短め。スープは豚骨醤油濃厚仕立てで、郊外ながら本格的な直系クオリティを維持。',
+    notes:'月曜定休。八王子の直系代表店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+八王子野猿&f=live'}],
+  },
+  {
+    id:12, name:'めじろ台店', region:'東京', area:'八王子市めじろ台',
+    address:'東京都八王子市めじろ台4-37-3',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で購入後に並ぶ。昼は学生で混みやすい',
+    menu:[{n:'小ラーメン',p:780},{n:'大ラーメン',p:880},{n:'小豚ラーメン',p:930},{n:'大豚ラーメン',p:1030}],
+    features:['大学近く','学生に人気','2部制','現金のみ'],
+    characteristics:'法政大学多摩キャンパスのすぐそば。学生ファンが多く昼時はキャンパスのランチ代わりに訪れる学生で賑わう。価格は八王子エリアらしくやや抑えめ。スープは濃厚豚骨醤油でしっかりした仕上がり。',
+    notes:'法政大学多摩キャンパス近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+めじろ台&f=live'}],
+  },
+  {
+    id:13, name:'立川店', region:'東京', area:'立川市高松町',
+    address:'東京都立川市高松町3-2-15',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。立川は多摩の中心都市のため来客多い',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['多摩の拠点','2部制','立川','現金のみ'],
+    characteristics:'多摩エリアの中心都市・立川の直系店。立川駅周辺は商業施設が充実し多摩各地から客が集まる。スープは豚骨醤油の定番系で安定した味わい。ヤサイはデフォルトでもかなりの量。',
+    notes:'多摩の中心・立川の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+立川&f=live'}],
+  },
+  {
+    id:14, name:'千住大橋駅前店', region:'東京', area:'足立区千住橋戸町',
+    address:'東京都足立区千住橋戸町25',
+    hours:'月〜土 11:00〜15:00',
+    closed:'日曜', seats:14,
+    queue:'食券先買い',
+    queueNote:'食券機で購入後に並ぶ。ランチのみのため午前中から行列になることも',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['下町','ランチのみ','足立区唯一','現金のみ'],
+    characteristics:'京成千住大橋駅前の足立区唯一直系店。荒川・隅田川エリアの下町らしい素朴な雰囲気。ランチのみの営業で時間は限られるが地元客・二郎ファンに愛されている。',
+    notes:'足立区唯一の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+千住大橋&f=live'}],
+  },
+  {
+    id:15, name:'新宿歌舞伎町店', region:'東京', area:'新宿区歌舞伎町',
+    address:'東京都新宿区歌舞伎町2-7-4',
+    hours:'月〜土 11:00〜15:00 / 17:00〜22:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'店頭の食券機で先に購入してから並ぶ。夜遅くまで営業しているのが特徴',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['歌舞伎町','夜遅くまで営業','2部制','現金のみ'],
+    characteristics:'歌舞伎町のど真ん中に位置する直系店。夜遅くまで営業しているため、夜の街の帰りに立ち寄れる。新宿に二店舗目の直系として、歌舞伎町の喧騒の中で二郎らしさを発揮する。',
+    notes:'歌舞伎町の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+歌舞伎町&f=live'}],
+  },
+  {
+    id:16, name:'環七新新代田店', region:'東京', area:'世田谷区松原',
+    address:'東京都世田谷区松原3-27-6',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:30',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。環七沿いのため車で来る客も多い',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['環七沿い','世田谷','2部制','現金のみ'],
+    characteristics:'環七通り沿い、世田谷区松原に位置する直系店。下北沢・明大前方面からもアクセスできる。環七の交通量を横目にガッツリ系の一杯を食べられる。スープは豚骨醤油の濃厚仕立て。',
+    notes:'環七沿い。京王線代田橋駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+新代田&f=live'}],
+  },
+  {
+    id:17, name:'亀戸店', region:'東京', area:'江東区亀戸',
+    address:'東京都江東区亀戸5-7-18',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['亀戸','2部制','東部エリア','現金のみ'],
+    characteristics:'JR総武線・東武亀戸線の亀戸駅近く。江東区・墨田区エリアのファンに重宝される直系店。亀戸天神・亀戸餃子で知られるグルメエリアでガッツリ系の二郎を楽しめる。',
+    notes:'亀戸駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+亀戸&f=live'}],
+  },
+  {
+    id:18, name:'環七一之江店', region:'東京', area:'江戸川区一之江',
+    address:'東京都江戸川区一之江8-18-10',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。環七沿いのため注意',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['環七沿い','江戸川','2部制','現金のみ'],
+    characteristics:'環七通り一之江エリア、江戸川区の直系店。都営新宿線一之江駅からアクセス可能。小岩店と並ぶ江戸川区の二郎として地元ファンに根強く支持されている。',
+    notes:'都営新宿線一之江駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+一之江&f=live'}],
+  },
+  {
+    id:19, name:'神田神保町店', region:'東京', area:'千代田区神田神保町',
+    address:'東京都千代田区神田神保町2-2-12',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。学生街のためランチ時は特に混雑する',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['神保町','学生街','2部制','現金のみ'],
+    characteristics:'本・カレーの街として知られる神保町の直系店。多くの大学・専門学校が近くに立ち並び、学生・社会人問わず幅広い層が訪れる。昼時は行列必至。',
+    notes:'神保町の書店街に位置。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+神保町&f=live'}],
+  },
+  {
+    id:20, name:'ひばりヶ丘駅前店', region:'東京', area:'西東京市住吉町',
+    address:'東京都西東京市住吉町1-8-14',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。駅前で行列が歩道に出ることも',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['西武沿線','2部制','ひばりヶ丘','現金のみ'],
+    characteristics:'西武池袋線ひばりヶ丘駅前に位置する直系店。西東京市・東久留米市方面の多摩北部エリアで貴重な直系として地元ファンに愛されている。スープは豚骨醤油の安定した仕上がり。',
+    notes:'西武池袋線ひばりヶ丘駅前。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+ひばりヶ丘&f=live'}],
+  },
+  {
+    id:21, name:'桜台駅前店', region:'東京', area:'練馬区桜台',
+    address:'東京都練馬区桜台2-2-3',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['練馬','西武沿線','2部制','現金のみ'],
+    characteristics:'西武池袋線桜台駅前の直系店。練馬区・板橋区南部からのアクセスが良く、昼も夜も安定した行列ができる人気店。スープは豚骨醤油濃厚系で麺量もしっかりある。',
+    notes:'西武池袋線桜台駅前。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+桜台&f=live'}],
+  },
+  {
+    id:22, name:'西台駅前店', region:'東京', area:'板橋区高島平',
+    address:'東京都板橋区高島平1-77-1',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['板橋','都営三田線','2部制','現金のみ'],
+    characteristics:'都営三田線西台駅の直系店。高島平団地を抱える板橋区北部エリアで貴重な存在。地元密着型で常連客が多く、アットホームな雰囲気の中で本格的な直系二郎を楽しめる。',
+    notes:'都営三田線西台駅前。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+西台&f=live'}],
+  },
+  {
+    id:23, name:'一橋学園店', region:'東京', area:'小平市学園西町',
+    address:'東京都小平市学園西町2-2-9',
+    hours:'月〜土 11:00〜14:30 / 17:00〜20:00',
+    closed:'日曜', seats:14,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。小平という郊外立地だが行列ができる',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['多摩北部','西武多摩湖線','2部制','現金のみ'],
+    characteristics:'西武多摩湖線一橋学園駅近くの直系店。小平・国分寺方面の多摩北部エリアでは数少ない直系として地元ファンに根強い支持を受けている。スープは豚骨醤油の直系スタイル。',
+    notes:'西武多摩湖線一橋学園駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+一橋学園&f=live'}],
+  },
+  /* ===== 神奈川 ===== */
+  {
+    id:24, name:'京急川崎店', region:'神奈川', area:'川崎市川崎区',
+    address:'神奈川県川崎市川崎区砂子1-3-9',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。川崎という都市部のため混みやすい',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['川崎','京急沿線','2部制','現金のみ'],
+    characteristics:'京急川崎駅近くに位置する神奈川北部の直系店。川崎・横浜方面のファンはもちろん、都心からのアクセスも良く広域から客が集まる。スープは濃厚豚骨醤油の直系スタイル。',
+    notes:'京急川崎駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+京急川崎&f=live'}],
+  },
+  {
+    id:25, name:'横浜関内店', region:'神奈川', area:'横浜市中区',
+    address:'神奈川県横浜市中区相生町4-53',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で購入後に並ぶ。関内のオフィス街のためランチ時は特に混雑',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['横浜','オフィス街','2部制','現金のみ'],
+    characteristics:'横浜市中区の関内・馬車道エリアに位置する横浜代表の直系店。関内はオフィスが多く平日ランチのビジネスマン需要が高い。スープは豚骨醤油濃厚系で神奈川ファンのホーム的存在。',
+    notes:'横浜の代表的直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+横浜関内&f=live'}],
+  },
+  {
+    id:26, name:'相模大野店', region:'神奈川', area:'相模原市南区',
+    address:'神奈川県相模原市南区相模大野3-3-2',
+    hours:'月〜土 11:00〜15:30',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。郊外店のため比較的並びやすい',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['小田急沿線','神奈川南部','ランチのみ','現金のみ'],
+    characteristics:'小田急線相模大野駅近く。相模原南部・大和・座間など神奈川南部エリアのファンに重宝される。ランチのみ15:30まで。スープは豚骨醤油の安定した仕上がり。',
+    notes:'小田急相模大野駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+相模大野&f=live'}],
+  },
+  {
+    id:27, name:'湘南藤沢店', region:'神奈川', area:'藤沢市南藤沢',
+    address:'神奈川県藤沢市南藤沢22-2',
+    hours:'火〜日 11:00〜15:00',
+    closed:'月曜', seats:14,
+    queue:'食券先買い',
+    queueNote:'入口の食券機で先に購入。月曜定休のため火曜は混雑に注意',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['湘南','藤沢','ランチのみ','現金のみ'],
+    characteristics:'JR藤沢駅近くの湘南エリア直系店。海の街・藤沢でガッツリ系二郎が食べられる。月曜定休でランチのみ。湘南・茅ケ崎・鎌倉方面からもファンが訪れる。',
+    notes:'湘南エリアの直系店。月曜定休。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+湘南藤沢&f=live'}],
+  },
+  {
+    id:28, name:'中山駅前店', region:'神奈川', area:'横浜市緑区中山',
+    address:'神奈川県横浜市緑区中山3-1-12',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。JR・市営地下鉄の中山駅前で利便性が高い',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['横浜北部','2部制','JR横浜線','現金のみ'],
+    characteristics:'JR横浜線・横浜市営地下鉄の中山駅前に位置する直系店。横浜北部・緑区エリアの直系として地元に親しまれている。スープは豚骨醤油の安定した仕立て。',
+    notes:'中山駅前の好立地。横浜北部の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+中山駅前&f=live'}],
+  },
+  {
+    id:29, name:'生田店', region:'神奈川', area:'川崎市多摩区',
+    address:'神奈川県川崎市多摩区生田7-1-18',
+    hours:'月〜土 11:00〜14:30 / 17:00〜20:00',
+    closed:'日曜', seats:14,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。昼は専修大学の学生で混みやすい',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['川崎多摩区','小田急沿線','大学近く','現金のみ'],
+    characteristics:'小田急線生田駅近く、専修大学の近隣に位置する直系店。学生ファンが多くランチタイムは大学生で賑わう。川崎多摩区エリアで貴重な直系店として地元に根ざしている。',
+    notes:'専修大学生田キャンパス近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+生田&f=live'}],
+  },
+  /* ===== 埼玉 ===== */
+  {
+    id:30, name:'川越店', region:'埼玉', area:'川越市脇田町',
+    address:'埼玉県川越市脇田町9-1',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。小江戸川越の観光客も混じることがある',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['川越','西武・東武沿線','2部制','現金のみ'],
+    characteristics:'小江戸として知られる川越市の直系店。西武新宿線・東武東上線の川越駅近くに位置し、川越市民だけでなく埼玉西部エリアから広くファンが集まる。',
+    notes:'川越駅近く。埼玉西部の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+川越&f=live'}],
+  },
+  {
+    id:31, name:'越谷店', region:'埼玉', area:'越谷市越谷',
+    address:'埼玉県越谷市越谷1-1-5',
+    hours:'火〜日 11:00〜15:00 / 17:00〜20:00',
+    closed:'月曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で購入後に並ぶ。埼玉南部の集客拠点のため混みやすい',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['埼玉','越谷','2部制','現金のみ'],
+    characteristics:'東武伊勢崎線越谷駅近く。越谷・春日部・草加など埼玉東南部からファンが集まる。スープは豚骨醤油濃厚仕立てで麺量も多め。埼玉県内では数少ない直系店として地元ラヲタに熱く支持されている。',
+    notes:'埼玉県内の直系店。越谷駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+越谷&f=live'}],
+  },
+  {
+    id:32, name:'大宮公園駅前店', region:'埼玉', area:'さいたま市見沼区',
+    address:'埼玉県さいたま市見沼区大和田町2-876',
+    hours:'月〜土 11:00〜14:30 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。東武野田線大宮公園駅前の好立地',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['大宮公園','東武野田線','2部制','現金のみ'],
+    characteristics:'東武野田線大宮公園駅前に位置する直系店。大宮公園の最寄り駅前という立地で、さいたま市北部エリアの直系として地元に親しまれている。越谷店・川越店とともに埼玉の直系三拠点の一つ。',
+    notes:'東武野田線大宮公園駅前。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+大宮公園&f=live'}],
+  },
+  /* ===== 千葉 ===== */
+  {
+    id:33, name:'松戸駅前店Ⅲ', region:'千葉', area:'松戸市松戸',
+    address:'千葉県松戸市松戸1307',
+    hours:'火〜日 11:00〜15:00 / 17:00〜20:00',
+    closed:'月曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。駅前立地のため通勤帰りの夜も賑わう',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['千葉','松戸','2部制','現金のみ'],
+    characteristics:'JR常磐線・新京成線の松戸駅前。松戸市民だけでなく柏・流山・三郷など周辺地域からも客が集まる。千葉県内では貴重な直系店として根強い人気を誇る。',
+    notes:'千葉県の代表的直系店。松戸駅前で便利。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+松戸&f=live'}],
+  },
+  {
+    id:34, name:'京成大久保店', region:'千葉', area:'習志野市大久保',
+    address:'千葉県習志野市大久保1-10-3',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。習志野市・千葉市花見川区方面の直系店',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['習志野','京成線','2部制','現金のみ'],
+    characteristics:'京成大久保駅近くの習志野市の直系店。千葉工業大学などが近く学生ファンも多い。松戸・柏・千葉とともに千葉県の直系四拠点の一つとして地元から愛されている。',
+    notes:'京成大久保駅近く。習志野市の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+大久保&f=live'}],
+  },
+  {
+    id:35, name:'柏店', region:'千葉', area:'柏市柏',
+    address:'千葉県柏市柏1-7-1',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。柏は千葉北部の中心都市のため混みやすい',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['柏','千葉北部','2部制','現金のみ'],
+    characteristics:'JR常磐線・東武野田線の柏駅近く。柏は千葉北部の中心都市で広域から客が集まる。松戸とともに常磐線沿線の直系拠点として千葉県北部ファンに重宝されている。',
+    notes:'柏駅近く。千葉北部の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+柏&f=live'}],
+  },
+  {
+    id:36, name:'千葉店', region:'千葉', area:'千葉市中央区',
+    address:'千葉県千葉市中央区富士見2-3-1',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。千葉市内唯一の直系として混みやすい',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['千葉市','千葉中心部','2部制','現金のみ'],
+    characteristics:'千葉市中央区に位置する千葉市内の直系店。千葉駅に近く、千葉市内外から広くファンが集まる。千葉県の直系店の中では最も都市部に近い立地で、千葉の二郎文化の中心的存在。',
+    notes:'千葉市中央区の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+千葉&f=live'}],
+  },
+  /* ===== その他 ===== */
+  {
+    id:37, name:'栃木街道店', region:'その他', area:'栃木市大平町',
+    address:'栃木県栃木市大平町富田',
+    hours:'月〜土 11:00〜15:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。栃木県唯一の直系のため周辺各地からファンが来訪',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['栃木唯一','国道沿い','ランチのみ','現金のみ'],
+    characteristics:'栃木県の直系唯一店。国道沿いに位置し、車でのアクセスが主体。栃木・小山・宇都宮方面からファンが集まる北関東の聖地。ランチのみの営業。',
+    notes:'栃木県唯一の直系店。車でのアクセス推奨。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+栃木街道&f=live'}],
+  },
+  {
+    id:38, name:'仙台店', region:'その他', area:'仙台市青葉区',
+    address:'宮城県仙台市青葉区一番町3-6-19',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:20,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入。東北唯一のため遠方からも客が来る。行列が長くなりやすい',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['東北唯一','2部制','聖地感あり','現金のみ'],
+    characteristics:'東北地方唯一の直系二郎。仙台市中心部・一番町の繁華街に立地し、地元仙台民はもちろん東北各地のファンが足を運ぶ。スープは豚骨醤油の直系スタイルを忠実に再現。仙台のラーメン文化において異色の存在感を放つ聖地。',
+    notes:'東北唯一の直系店。遠方ファンも多い。',
+    sns:[
+      {t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+仙台&f=live'},
+      {t:'ig',l:'Instagram',u:'https://www.instagram.com/explore/search/keyword/?q=ラーメン二郎仙台'},
+    ],
+  },
+  {
+    id:39, name:'札幌店', region:'その他', area:'札幌市中央区',
+    address:'北海道札幌市中央区南5条西3丁目',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。北海道唯一のため道内各地からファンが来訪',
+    menu:[{n:'小ラーメン',p:900},{n:'大ラーメン',p:1000},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['北海道唯一','2部制','すすきの近く','現金のみ'],
+    characteristics:'北海道唯一の直系二郎。すすきの・ススキノ周辺に位置し、道内各地から聖地を目指して訪れるファンが絶えない。北海道ラーメンの本場でも直系スタイルを貫く異色の存在。',
+    notes:'北海道唯一の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+札幌&f=live'}],
+  },
+  {
+    id:40, name:'会津若松駅前店', region:'その他', area:'福島県会津若松市',
+    address:'福島県会津若松市駅前町',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。会津観光客も立ち寄ることがある',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['福島','会津','2部制','現金のみ'],
+    characteristics:'鶴ヶ城・飯盛山など観光地で有名な会津若松のJR会津若松駅前に位置する直系店。観光で訪れた二郎ファンが立ち寄ることも多い。東北の直系店の一つとして地元ファンに根強く支持されている。',
+    notes:'JR会津若松駅前。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+会津若松&f=live'}],
+  },
+  {
+    id:41, name:'新潟店', region:'その他', area:'新潟市中央区',
+    address:'新潟県新潟市中央区東大通',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。新潟唯一の直系として来店客が多い',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['新潟唯一','2部制','新潟駅近く','現金のみ'],
+    characteristics:'新潟市の新潟駅近くに位置する直系店。ご当地ラーメン文化が豊かな新潟で直系二郎を堂々と展開。新潟市内外からファンが集まり、北陸・上越方面からのアクセスも良い。',
+    notes:'新潟唯一の直系店。新潟駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+新潟&f=live'}],
+  },
+  {
+    id:42, name:'京都店', region:'その他', area:'京都市中京区',
+    address:'京都府京都市中京区烏丸通二条下ル',
+    hours:'火〜日 11:30〜15:00 / 17:30〜20:30',
+    closed:'月曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。関西唯一のため週末は行列が特に長い',
+    menu:[{n:'小ラーメン',p:900},{n:'大ラーメン',p:1000},{n:'小豚ラーメン',p:1100},{n:'大豚ラーメン',p:1200}],
+    features:['関西唯一','2部制','京都','現金のみ'],
+    characteristics:'関西地方唯一の直系二郎。地下鉄烏丸御池駅近くの京都市中心部に立地し、京都・大阪・神戸など関西全土からファンが訪れる。古都の街並みとのミスマッチが逆に話題を呼ぶ。スープは豚骨醤油の直系スタイルを関西でも忠実に再現。',
+    notes:'関西唯一の直系店。関西各地からファンが訪れる。',
+    sns:[
+      {t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+京都&f=live'},
+      {t:'ig',l:'Instagram',u:'https://www.instagram.com/explore/search/keyword/?q=ラーメン二郎京都'},
+    ],
+  },
+  {
+    id:43, name:'前橋千代田町店', region:'その他', area:'群馬県前橋市',
+    address:'群馬県前橋市千代田町3丁目',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。群馬唯一のため高崎・伊勢崎方面からも来訪',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['群馬唯一','2部制','前橋','現金のみ'],
+    characteristics:'群馬県唯一の直系二郎。前橋市千代田町に位置し、高崎・伊勢崎・桐生など群馬各地からファンが足を運ぶ。群馬の太田焼きそば・高崎パスタとは全く異なる二郎スタイルを楽しめる。',
+    notes:'群馬唯一の直系店。車でのアクセスが主体。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+前橋&f=live'}],
+  },
+  {
+    id:44, name:'ひたちなか店', region:'その他', area:'茨城県ひたちなか市',
+    address:'茨城県ひたちなか市勝田本町',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:18,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。茨城唯一の直系のため水戸・大洗方面からも来訪',
+    menu:[{n:'小ラーメン',p:800},{n:'大ラーメン',p:900},{n:'小豚ラーメン',p:950},{n:'大豚ラーメン',p:1050}],
+    features:['茨城唯一','2部制','ひたちなか','現金のみ'],
+    characteristics:'茨城県唯一の直系二郎。ひたちなか市に位置し、水戸・那珂・大洗など茨城各地から聖地を目指してファンが来訪する。常磐線沿線エリアで仙台店とともに北関東・東北の直系拠点を担う。',
+    notes:'茨城唯一の直系店。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+ひたちなか&f=live'}],
+  },
+  {
+    id:45, name:'朝倉街道駅前店', region:'その他', area:'福岡県朝倉郡筑前町',
+    address:'福岡県朝倉郡筑前町依井',
+    hours:'火〜日 11:00〜15:00 / 17:00〜20:00',
+    closed:'月曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。九州唯一のため福岡市内・久留米方面からも来訪',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['九州唯一','西鉄沿線','聖地感あり','現金のみ'],
+    characteristics:'九州地方唯一の直系二郎。西鉄天神大牟田線の朝倉街道駅前に位置し、福岡市・久留米・佐賀など九州全土からファンが訪れる。豚骨ラーメンの本場・九州でも直系二郎スタイルを貫く異色の聖地。',
+    notes:'九州唯一の直系店。西鉄朝倉街道駅前。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+朝倉街道&f=live'}],
+  },
+  {
+    id:46, name:'名古屋大曽根店', region:'その他', area:'名古屋市北区大曽根',
+    address:'愛知県名古屋市北区大曽根3丁目',
+    hours:'月〜土 11:00〜15:00 / 17:00〜20:00',
+    closed:'日曜', seats:16,
+    queue:'食券先買い',
+    queueNote:'食券機で先に購入後に並ぶ。中部唯一の直系として名古屋市内外から多数来訪',
+    menu:[{n:'小ラーメン',p:850},{n:'大ラーメン',p:950},{n:'小豚ラーメン',p:1050},{n:'大豚ラーメン',p:1150}],
+    features:['中部唯一','名古屋','2部制','現金のみ'],
+    characteristics:'中部地方唯一の直系二郎。名古屋市北区の大曽根駅近くに位置し、名古屋市内はもちろん愛知・岐阜・三重など中部全土からファンが訪れる。名古屋メシが溢れる街で直系二郎という唯一無二の存在感を放つ。',
+    notes:'中部唯一の直系店。大曽根駅近く。',
+    sns:[{t:'x',l:'X で検索',u:'https://twitter.com/search?q=ラーメン二郎+大曽根&f=live'}],
+  },
+];
+
+/* ================================================================
+   状態管理
+================================================================ */
+const HL = ['二郎発祥','東北唯一','関西唯一','北海道唯一','九州唯一','中部唯一','栃木唯一','群馬唯一','茨城唯一'];
+const BC = { '東京':'b-tokyo','神奈川':'b-kanagawa','埼玉':'b-saitama','千葉':'b-chiba','その他':'b-other' };
+
+let favs       = JSON.parse(localStorage.getItem('jiro_favs') || '[]');
+let region     = 'すべて';
+let query      = '';
+let favOnly    = false;
+let openSet    = new Set();
+
+const saveFavs = () => localStorage.setItem('jiro_favs', JSON.stringify(favs));
+const isFav    = id => favs.includes(id);
+
+function toggleFav(id) {
+  isFav(id) ? favs = favs.filter(f => f !== id) : favs.push(id);
+  saveFavs();
+  render();
+}
+
+function toggleDetail(id) {
+  openSet.has(id) ? openSet.delete(id) : openSet.add(id);
+  const el  = document.getElementById('d-' + id);
+  const btn = document.getElementById('b-' + id);
+  if (el)  el.classList.toggle('open', openSet.has(id));
+  if (btn) btn.textContent = openSet.has(id) ? '閉じる ▲' : '詳細を見る ▼';
+}
+
+/* ================================================================
+   レンダリング
+================================================================ */
+function render() {
+  const q = query.trim();
+  const list = STORES.filter(s => {
+    if (region !== 'すべて' && s.region !== region) return false;
+    if (favOnly && !isFav(s.id)) return false;
+    if (q && ![s.name, s.area, s.address, ...s.features].some(v => v.includes(q))) return false;
+    return true;
+  });
+
+  document.getElementById('count-num').textContent = list.length;
+
+  const grid = document.getElementById('grid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="nores"><div style="font-size:2rem">🍜</div><p>条件に一致する店舗が見つかりません</p></div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(s => {
+    const bc    = BC[s.region] || 'b-other';
+    const qc    = s.queue === '食券先買い' ? 'q-first' : 'q-lineup';
+    const tags  = s.features.map(f => `<span class="tag${HL.includes(f) ? ' hl' : ''}">${f}</span>`).join('');
+    const mrows = s.menu.map(m => `<tr><td>${m.n}</td><td>¥${m.p.toLocaleString()}</td></tr>`).join('');
+    const shtml = s.sns.map(sn =>
+      `<a class="slink slink-${sn.t}" href="${sn.u}" target="_blank" rel="noopener">${sn.t === 'x' ? '𝕏' : '📷'} ${sn.l}</a>`
+    ).join('');
+    const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent('ラーメン二郎 ' + s.name)}`;
+    const open   = openSet.has(s.id);
+    const fav    = isFav(s.id);
+
+    return `<div class="card${fav ? ' fav' : ''}" id="c-${s.id}">
+  <div class="card-top">
+    <div class="card-header">
+      <span class="store-name">${s.name}</span>
+      <div class="badge-col">
+        <span class="rbadge ${bc}">${s.region}・${s.area}</span>
+        <span class="qbadge ${qc}">🎫 ${s.queue}</span>
+      </div>
+    </div>
+    <div class="irow">📍 <span>${s.address}</span></div>
+    <div class="irow">🕐 <span><strong>${s.hours}</strong></span></div>
+    <div class="irow">🚫 <span>定休：${s.closed}　💺 約${s.seats}席</span></div>
+    <div class="tags">${tags}</div>
+    <div class="card-foot">
+      <button class="dtbtn" id="b-${s.id}" onclick="toggleDetail(${s.id})">${open ? '閉じる ▲' : '詳細を見る ▼'}</button>
+      <button class="favbtn" onclick="toggleFav(${s.id})" title="${fav ? 'お気に入り解除' : 'お気に入り登録'}">${fav ? '⭐' : '☆'}</button>
+    </div>
+  </div>
+  <div class="detail${open ? ' open' : ''}" id="d-${s.id}">
+    <p class="dlabel">店の特徴</p>
+    <p class="charas">${s.characteristics}</p>
+    <p class="dlabel">メニュー（参考価格）</p>
+    <table class="menu-tbl">
+      <thead><tr><th>メニュー</th><th>価格</th></tr></thead>
+      <tbody>${mrows}</tbody>
+    </table>
+    <p class="price-note">※ 価格は参考値。変更の場合があります。</p>
+    <p class="dlabel">並び方</p>
+    <div class="queue-box"><strong>${s.queue}</strong>${s.queueNote}</div>
+    ${shtml ? `<p class="dlabel">SNS・検索</p><div class="sns-row">${shtml}</div>` : ''}
+    <p class="dlabel">地図</p>
+    <a class="mapbtn" href="${mapUrl}" target="_blank" rel="noopener">🗺️ Google Maps で開く</a>
+    ${s.notes ? `<p class="dnotes">${s.notes}</p>` : ''}
+  </div>
+</div>`;
+  }).join('');
+}
+
+/* ================================================================
+   イベント
+================================================================ */
+document.getElementById('tabs').addEventListener('click', e => {
+  const t = e.target.closest('.tab');
+  if (!t) return;
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  t.classList.add('active');
+  region = t.dataset.r;
+  render();
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  query = e.target.value;
+  document.getElementById('search-clear').classList.toggle('show', query.length > 0);
+  render();
+});
+
+document.getElementById('search-clear').addEventListener('click', () => {
+  query = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-clear').classList.remove('show');
+  render();
+});
+
+document.getElementById('fav-toggle').addEventListener('click', function () {
+  favOnly = !favOnly;
+  this.classList.toggle('active', favOnly);
+  render();
+});
+
+// コールガイド
+document.getElementById('call-btn').addEventListener('click', () => {
+  document.getElementById('call-modal').classList.remove('hidden');
+});
+document.getElementById('call-close').addEventListener('click', () => {
+  document.getElementById('call-modal').classList.add('hidden');
+});
+document.getElementById('call-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('call-modal'))
+    document.getElementById('call-modal').classList.add('hidden');
+});
+
+render();
+</script>
+
+</body>
+</html>
